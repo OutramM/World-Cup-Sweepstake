@@ -1,0 +1,67 @@
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+}
+
+header {
+    background: #1e293b;
+    padding: 20px;
+    text-align: center;
+}
+
+.controls {
+    padding: 20px;
+}
+
+textarea,
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+#cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: #1e293b;
+    border-radius: 20px;
+    width: 300px;
+    padding: 20px;
+    box-shadow: 0px 5px 20px black;
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.team {
+    background: #334155;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 5px 0;
+}
+
+.hidden {
+    display: none;
+}

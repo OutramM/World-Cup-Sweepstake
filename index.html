@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>World Cup Sweepstake</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<header>
+    <h1>🏆 World Cup Sweepstake Generator</h1>
+</header>
+
+<div class="controls">
+
+    <h2>Players</h2>
+
+    <textarea id="playersInput" rows="8">
+Max
+Player 2
+Player 3
+Player 4
+Player 5
+Player 6
+    </textarea>
+
+    <h2>Teams Per Player</h2>
+
+    <input id="teamsPerPlayer" type="number" value="8">
+
+    <button onclick="generateDraw()">
+        Generate Draw
+    </button>
+
+</div>
+
+<nav>
+
+    <button onclick="showTab('drawTab')">
+        Draw
+    </button>
+
+    <button onclick="showTab('fixturesTab')">
+        Fixtures
+    </button>
+
+</nav>
+
+<div id="drawTab" class="tab">
+    <div id="cards"></div>
+</div>
+
+<div id="fixturesTab" class="tab hidden">
+    <h2>Fixtures</h2>
+    <div id="fixtures"></div>
+</div>
+
+<script src="teams.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

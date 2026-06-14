@@ -1,59 +1,386 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>World Cup Sweepstake</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>World Cup 2026 Sweepstake</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
 
 <body>
 
+<div id="particles"></div>
+
 <header>
-    <h1>🏆 World Cup Sweepstake Generator</h1>
+
+    <div class="logo">
+
+        <div class="logoBall">
+            ⚽
+        </div>
+
+        <div>
+
+            <h1>
+                World Cup 2026
+            </h1>
+
+            <p>
+                Sweepstake Generator
+            </p>
+
+        </div>
+
+    </div>
+
+    <nav>
+
+        <button
+            class="navButton active"
+            data-page="home"
+        >
+            Home
+        </button>
+
+        <button
+            class="navButton"
+            data-page="draw"
+        >
+            Draw
+        </button>
+
+        <button
+            class="navButton"
+            data-page="fixtures"
+        >
+            Fixtures
+        </button>
+
+        <button
+            class="navButton"
+            data-page="standings"
+        >
+            Standings
+        </button>
+
+        <button
+            class="navButton"
+            data-page="map"
+        >
+            World Map
+        </button>
+
+    </nav>
+
 </header>
 
-<div class="controls">
+<main>
 
-    <h2>Players</h2>
+<!-- HOME -->
 
-    <textarea id="playersInput" rows="8">
+<section
+    id="homePage"
+    class="page activePage"
+>
+
+    <div class="hero">
+
+        <h2>
+            🏆 FIFA World Cup 2026 Sweepstake
+        </h2>
+
+        <p>
+            Generate a fair, balanced and beautiful
+            World Cup sweepstake with all
+            48 teams, fixtures, standings and maps.
+        </p>
+
+        <button
+            id="startButton"
+            class="bigButton"
+        >
+            Start Draw
+        </button>
+
+    </div>
+
+    <div class="setupCard">
+
+        <h3>
+            Players
+        </h3>
+
+        <p>
+            One player per line.
+        </p>
+
+        <textarea
+            id="playersInput"
+            rows="10"
+        >
 Max
-Player 2
-Player 3
-Player 4
-Player 5
-Player 6
-    </textarea>
+Will
+Tom
+Miller
+Matty
+Olly
+        </textarea>
 
-    <h2>Teams Per Player</h2>
+        <div class="inputGrid">
 
-    <input id="teamsPerPlayer" type="number" value="8">
+            <div>
 
-    <button onclick="generateDraw()">
-        Generate Draw
-    </button>
+                <label>
+                    Teams Per Player
+                </label>
+
+                <input
+                    id="teamsPerPlayer"
+                    type="number"
+                    value="8"
+                    min="1"
+                    max="48"
+                >
+
+            </div>
+
+            <div>
+
+                <label>
+                    Number of Simulations
+                </label>
+
+                <input
+                    id="simulationCount"
+                    type="number"
+                    value="500"
+                    min="10"
+                    max="5000"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="buttonRow">
+
+            <button
+                id="generateButton"
+                class="bigButton"
+            >
+                🎲 Generate Fair Draw
+            </button>
+
+            <button
+                id="randomNamesButton"
+            >
+                Random Demo
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DRAW PAGE -->
+
+<section
+    id="drawPage"
+    class="page"
+>
+
+    <div class="pageTitle">
+
+        <h2>
+            🎲 Draw Results
+        </h2>
+
+        <p>
+            Click cards to view statistics.
+        </p>
+
+    </div>
+
+    <div
+        id="drawCards"
+        class="cardsContainer"
+    >
+    </div>
+
+</section>
+
+<!-- FIXTURES PAGE -->
+
+<section
+    id="fixturesPage"
+    class="page"
+>
+
+    <div class="pageTitle">
+
+        <h2>
+            📅 Fixtures
+        </h2>
+
+        <p>
+            Group Stage and Knockout Matches
+        </p>
+
+    </div>
+
+    <div
+        id="fixturesContainer"
+        class="fixturesGrid"
+    >
+    </div>
+
+</section>
+
+<!-- STANDINGS PAGE -->
+
+<section
+    id="standingsPage"
+    class="page"
+>
+
+    <div class="pageTitle">
+
+        <h2>
+            📊 Standings
+        </h2>
+
+        <p>
+            Live tables and group positions.
+        </p>
+
+    </div>
+
+    <div
+        id="standingsContainer"
+    >
+    </div>
+
+</section>
+
+<!-- MAP PAGE -->
+
+<section
+    id="mapPage"
+    class="page"
+>
+
+    <div class="pageTitle">
+
+        <h2>
+            🗺️ World Map
+        </h2>
+
+        <p>
+            See where every team comes from.
+        </p>
+
+    </div>
+
+    <div
+        id="worldMapContainer"
+    >
+
+        <img
+            id="worldMap"
+            src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
+        >
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- MODAL -->
+
+<div
+    id="teamModal"
+    class="modal"
+>
+
+    <div class="modalCard">
+
+        <button
+            id="closeModal"
+        >
+            ✕
+        </button>
+
+        <div
+            id="modalContent"
+        >
+        </div>
+
+    </div>
 
 </div>
 
-<nav>
+<!-- LOADING -->
 
-    <button onclick="showTab('drawTab')">
-        Draw
-    </button>
+<div
+    id="loadingScreen"
+>
 
-    <button onclick="showTab('fixturesTab')">
-        Fixtures
-    </button>
+    <div class="loader">
 
-</nav>
+        <div class="loaderBall">
+            ⚽
+        </div>
 
-<div id="drawTab" class="tab">
-    <div id="cards"></div>
+        <h2>
+            Generating Draw...
+        </h2>
+
+    </div>
+
 </div>
 
-<div id="fixturesTab" class="tab hidden">
-    <h2>Fixtures</h2>
-    <div id="fixtures"></div>
+<!-- TOAST -->
+
+<div
+    id="toast"
+>
+
 </div>
+
+<footer>
+
+    <p>
+        World Cup 2026 Sweepstake Generator
+        • EA FC Edition
+    </p>
+
+</footer>
 
 <script src="teams.js"></script>
 <script src="script.js"></script>

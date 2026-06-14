@@ -1,389 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
-    <title>World Cup 2026 Sweepstake</title>
+    <title>
+        World Cup 2026 Sweepstake
+    </title>
 
     <link
         rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+        href="https://fonts.googleapis.com">
 
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
-        crossorigin
-    >
+        crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
 
     <link
         rel="stylesheet"
-        href="style.css"
-    >
+        href="style.css">
+
 </head>
 
 <body>
 
-<div id="particles"></div>
+    <!-- BACKGROUND PARTICLES -->
 
-<header>
+    <div id="particles"></div>
 
-    <div class="logo">
+    <!-- LOADING SCREEN -->
 
-        <div class="logoBall">
-            ⚽
-        </div>
+    <div
+        id="loadingScreen"
+        style="display:none;">
 
-        <div>
+        <div class="loadingBox">
 
             <h1>
-                World Cup 2026
+                ⚽ Loading Draw...
             </h1>
-
-            <p>
-                Sweepstake Generator
-            </p>
 
         </div>
 
     </div>
+
+    <!-- TOAST -->
+
+    <div
+        id="toast"
+        style="display:none;">
+
+    </div>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>
+            🏆 FIFA WORLD CUP 2026 SWEEPSTAKE
+        </h1>
+
+        <p>
+            EA FC Style Team Draw,
+            Probabilities,
+            Fixtures
+            &
+            Knockout Bracket
+        </p>
+
+    </header>
+
+    <!-- NAVIGATION -->
 
     <nav>
 
         <button
             class="navButton active"
-            data-page="home"
-        >
+            data-page="home">
+
             Home
+
         </button>
 
         <button
             class="navButton"
-            data-page="draw"
-        >
+            data-page="draw">
+
             Draw
+
         </button>
 
         <button
             class="navButton"
-            data-page="fixtures"
-        >
+            data-page="fixtures">
+
             Fixtures
+
         </button>
 
         <button
             class="navButton"
-            data-page="standings"
-        >
+            data-page="standings">
+
             Standings
+
         </button>
 
         <button
             class="navButton"
-            data-page="map"
-        >
-            World Map
+            data-page="bracket">
+
+            Bracket
+
         </button>
 
     </nav>
 
-</header>
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
 
-<main>
-
-<!-- HOME -->
-
-<section
-    id="homePage"
-    class="page activePage"
->
-
-    <div class="hero">
+    <div
+        id="homePage"
+        class="page activePage">
 
         <h2>
-            🏆 FIFA World Cup 2026 Sweepstake
+            Create Sweepstake
         </h2>
 
-        <p>
-            Generate a fair, balanced and beautiful
-            World Cup sweepstake with all
-            48 teams, fixtures, standings and maps.
-        </p>
+        <br>
 
-        <button
-            id="startButton"
-            class="bigButton"
-        >
-            Start Draw
-        </button>
+        <label>
 
-    </div>
+            Player Names
 
-    <div class="setupCard">
+        </label>
 
-        <h3>
-            Players
-        </h3>
-
-        <p>
-            One player per line.
-        </p>
+        <br><br>
 
         <textarea
             id="playersInput"
             rows="10"
-        >
-Max
-Will
-Tom
-Miller
-Matty
-Olly
-        </textarea>
+            placeholder="One player per line"></textarea>
 
-        <div class="inputGrid">
+        <br><br>
 
-            <div>
+        <button
+            id="randomNamesButton">
 
-                <label>
-                    Teams Per Player
-                </label>
+            Fill Demo Players
 
-                <input
-                    id="teamsPerPlayer"
-                    type="number"
-                    value="8"
-                    min="1"
-                    max="48"
-                >
+        </button>
 
-            </div>
+        <br><br>
 
-            <div>
+        <label>
 
-                <label>
-                    Number of Simulations
-                </label>
+            Teams Per Player
 
-                <input
-                    id="simulationCount"
-                    type="number"
-                    value="500"
-                    min="10"
-                    max="5000"
-                >
+        </label>
 
-            </div>
+        <br>
 
-        </div>
+        <input
+            id="teamsPerPlayer"
+            type="number"
+            value="8"
+            min="1"
+            max="48">
 
-        <div class="buttonRow">
+        <br><br>
 
-            <button
-                id="generateButton"
-                class="bigButton"
-            >
-                🎲 Generate Fair Draw
-            </button>
+        <button
+            id="startButton">
 
-            <button
-                id="randomNamesButton"
-            >
-                Random Demo
-            </button>
+            ⚽ Generate Fair Draw
 
-        </div>
+        </button>
 
     </div>
 
-</section>
+    <!-- =========================
+         DRAW PAGE
+    ========================== -->
 
-<!-- DRAW PAGE -->
-
-<section
-    id="drawPage"
-    class="page"
->
-
-    <div class="pageTitle">
+    <div
+        id="drawPage"
+        class="page">
 
         <h2>
-            🎲 Draw Results
+            Draw Results
         </h2>
 
         <p>
             Click cards to view statistics.
         </p>
 
-    </div>
-
-    <div
-        id="drawCards"
-        class="cardsContainer"
-    >
-    </div>
-
-</section>
-
-<!-- FIXTURES PAGE -->
-
-<section
-    id="fixturesPage"
-    class="page"
->
-
-    <div class="pageTitle">
-
-        <h2>
-            📅 Fixtures
-        </h2>
-
-        <p>
-            Group Stage and Knockout Matches
-        </p>
-
-    </div>
-
-    <div
-        id="fixturesContainer"
-        class="fixturesGrid"
-    >
-    </div>
-
-</section>
-
-<!-- STANDINGS PAGE -->
-
-<section
-    id="standingsPage"
-    class="page"
->
-
-    <div class="pageTitle">
-
-        <h2>
-            📊 Standings
-        </h2>
-
-        <p>
-            Live tables and group positions.
-        </p>
-
-    </div>
-
-    <div
-        id="standingsContainer"
-    >
-    </div>
-
-</section>
-
-<!-- MAP PAGE -->
-
-<section
-    id="mapPage"
-    class="page"
->
-
-    <div class="pageTitle">
-
-        <h2>
-            🗺️ World Map
-        </h2>
-
-        <p>
-            See where every team comes from.
-        </p>
-
-    </div>
-
-    <div
-        id="worldMapContainer"
-    >
-
-        <img
-            id="worldMap"
-            src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
-        >
-
-    </div>
-
-</section>
-
-</main>
-
-<!-- MODAL -->
-
-<div
-    id="teamModal"
-    class="modal"
->
-
-    <div class="modalCard">
+        <br>
 
         <button
-            id="closeModal"
-        >
-            ✕
+            id="generateButton">
+
+            🔄 Regenerate Draw
+
         </button>
 
-        <div
-            id="modalContent"
-        >
+        <br><br>
+
+        <div id="drawCards">
+
         </div>
 
     </div>
 
-</div>
+    <!-- =========================
+         FIXTURES PAGE
+    ========================== -->
 
-<!-- LOADING -->
-
-<div
-    id="loadingScreen"
->
-
-    <div class="loader">
-
-        <div class="loaderBall">
-            ⚽
-        </div>
+    <div
+        id="fixturesPage"
+        class="page">
 
         <h2>
-            Generating Draw...
+            Fixtures
         </h2>
+
+        <p>
+            Enter scores for each game.
+        </p>
+
+        <br>
+
+        <div
+            id="fixturesContainer">
+
+        </div>
 
     </div>
 
-</div>
+    <!-- =========================
+         STANDINGS PAGE
+    ========================== -->
 
-<!-- TOAST -->
+    <div
+        id="standingsPage"
+        class="page">
 
-<div
-    id="toast"
->
+        <h2>
+            Standings
+        </h2>
 
-</div>
+        <br>
 
-<footer>
+        <div
+            id="standingsContainer">
 
-    <p>
-        World Cup 2026 Sweepstake Generator
-        • EA FC Edition
-    </p>
+        </div>
 
-</footer>
+        <br><br>
 
-<script src="teams.js"></script>
-<script src="script.js"></script>
+        <h2>
+            Winning Probabilities
+        </h2>
+
+        <br>
+
+        <div
+            id="probabilityContainer">
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+         BRACKET PAGE
+    ========================== -->
+
+    <div
+        id="bracketPage"
+        class="page">
+
+        <h2>
+            🏆 Tournament Bracket
+        </h2>
+
+        <p>
+            Enter scores and winners
+            automatically progress.
+
+        </p>
+
+        <br>
+
+        <div
+            id="bracketContainer">
+
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="teams.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

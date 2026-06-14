@@ -765,3 +765,597 @@ function showToast(
         2500
     );
 }
+/* ==========================================
+   SAVE / LOAD
+========================================== */
+
+function saveDraw() {
+
+    const data = {
+
+        assignments:
+            currentAssignments,
+
+        players:
+            currentPlayers
+
+    };
+
+    localStorage.setItem(
+        "worldCupSweepstake",
+        JSON.stringify(data)
+    );
+
+}
+
+function loadSavedDraw() {
+
+    const data =
+        localStorage.getItem(
+            "worldCupSweepstake"
+        );
+
+    if (!data)
+        return;
+
+    try {
+
+        const parsed =
+            JSON.parse(data);
+
+        currentAssignments =
+            parsed.assignments || {};
+
+        currentPlayers =
+            parsed.players || [];
+
+        if (
+            Object.keys(
+                currentAssignments
+            ).length > 0
+        ) {
+
+            renderDraw(
+                currentAssignments
+            );
+
+            generateStandings();
+
+            generateFixtures();
+
+        }
+
+    }
+
+    catch {
+
+        console.log(
+            "No save found."
+        );
+
+    }
+
+}
+
+/* ==========================================
+   GENERATE FIXTURES
+========================================== */
+
+function generateFixtures() {
+
+    const container =
+        document.getElementById(
+            "fixturesContainer"
+        );
+
+    if (!container)
+        return;
+
+    container.innerHTML =
+        "";
+
+    currentFixtures =
+        [];
+
+    const players =
+        currentPlayers;
+
+    for (
+        let i = 0;
+        i < players.length;
+        i++
+    ) {
+
+        for (
+            let j = i + 1;
+            j < players.length;
+            j++
+        ) {
+
+            currentFixtures.push({
+
+                home:
+                    players[i],
+
+                away:
+                    players[j],
+
+                homeGoals:
+                    "",
+
+                awayGoals:
+                    ""
+
+            });
+
+        }
+
+    }
+
+    currentFixtures.forEach(
+        fixture => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "fixtureCard";
+
+            card.innerHTML =
+                `
+                <h3>
+                ${fixture.home}
+                vs
+                ${fixture.away}
+                </h3>
+
+                <br>
+
+                <input
+                    type="number"
+                    min="0"
+                    class="scoreInput"
+                    placeholder="Home Goals"
+                >
+
+                <br><br>
+
+                <input
+                    type="number"
+                    min="0"
+                    class="scoreInput"
+                    placeholder="Away Goals"
+                >
+                `;
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+/* ==========================================
+   STANDINGS
+========================================== */
+
+function generateStandings() {
+
+    const container =
+        document.getElementById(
+            "standingsContainer"
+        );
+
+    if (!container)
+        return;
+
+    let table =
+        `
+        <table>
+
+        <tr>
+
+        <th>Player</th>
+        <th>Strength</th>
+
+        </tr>
+        `;
+
+    currentPlayers.forEach(
+        player => {
+
+            const strength =
+                calculateStrength(
+                    currentAssignments[
+                        player
+                    ]
+                );
+
+            table +=
+                `
+                <tr>
+
+                <td>
+                ${player}
+                </td>
+
+                <td>
+                ${strength}
+                </td>
+
+                </tr>
+                `;
+
+        }
+    );
+
+    table +=
+        `
+        </table>
+        `;
+
+    container.innerHTML =
+        table;
+
+}
+
+/* ==========================================
+   BETTER BALANCING CHECK
+========================================== */
+
+function evaluateBalance() {
+
+    const strengths =
+        [];
+
+    currentPlayers.forEach(
+        player => {
+
+            strengths.push(
+                calculateStrength(
+                    currentAssignments[
+                        player
+                    ]
+                )
+            );
+
+        }
+    );
+
+    const highest =
+        Math.max(
+            ...strengths
+        );
+
+    const lowest =
+        Math.min(
+            ...strengths
+        );
+
+    return {
+
+        highest,
+        lowest,
+        difference:
+            highest -
+            lowest
+
+    };
+
+}
+
+/* ==========================================
+   WIN PROBABILITY
+========================================== */
+
+function getWinningChance(
+    player
+) {
+
+    const strengths =
+        currentPlayers.map(
+            p =>
+                calculateStrength(
+                    currentAssignments[
+                        p
+                    ]
+                )
+        );
+
+    const total =
+        strengths.reduce(
+            (
+                a,
+                b
+            ) =>
+                a + b,
+            0
+        );
+
+    const strength =
+        calculateStrength(
+            currentAssignments[
+                player
+            ]
+        );
+
+    return (
+        (
+            strength /
+            total
+        ) *
+        100
+    ).toFixed(1);
+
+}
+
+/* ==========================================
+   WORLD MAP
+========================================== */
+
+function renderWorldMap() {
+
+    const map =
+        document.getElementById(
+            "worldMap"
+        );
+
+    if (!map)
+        return;
+
+    map.onclick =
+        function () {
+
+            showToast(
+                "Interactive map coming soon!"
+            );
+
+        };
+
+}
+
+/* ==========================================
+   CONFETTI
+========================================== */
+
+function launchConfetti() {
+
+    for (
+        let i = 0;
+        i < 120;
+        i++
+    ) {
+
+        const piece =
+            document.createElement(
+                "div"
+            );
+
+        piece.style.position =
+            "fixed";
+
+        piece.style.width =
+            "10px";
+
+        piece.style.height =
+            "10px";
+
+        piece.style.left =
+            Math.random() *
+                window.innerWidth +
+            "px";
+
+        piece.style.top =
+            "-20px";
+
+        piece.style.background =
+            `hsl(
+            ${
+                Math.random() *
+                360
+            },
+            100%,
+            50%
+            )`;
+
+        piece.style.zIndex =
+            99999;
+
+        piece.style.borderRadius =
+            "50%";
+
+        document.body.appendChild(
+            piece
+        );
+
+        piece.animate(
+
+            [
+
+                {
+                    transform:
+                        "translateY(0px)"
+                },
+
+                {
+                    transform:
+                        `translateY(
+                        ${
+                            window.innerHeight +
+                            100
+                        }px
+                        )
+                        rotate(
+                        ${
+                            Math.random() *
+                            1080
+                        }deg
+                        )`
+                }
+
+            ],
+
+            {
+
+                duration:
+                    3000 +
+                    Math.random() *
+                        2000,
+
+                easing:
+                    "linear"
+
+            }
+
+        );
+
+        setTimeout(
+            () => {
+
+                piece.remove();
+
+            },
+            5000
+        );
+
+    }
+
+}
+
+/* ==========================================
+   PARTICLES
+========================================== */
+
+function createParticles() {
+
+    const container =
+        document.getElementById(
+            "particles"
+        );
+
+    if (!container)
+        return;
+
+    for (
+        let i = 0;
+        i < 40;
+        i++
+    ) {
+
+        const p =
+            document.createElement(
+                "div"
+            );
+
+        p.style.position =
+            "absolute";
+
+        p.style.width =
+            "4px";
+
+        p.style.height =
+            "4px";
+
+        p.style.borderRadius =
+            "50%";
+
+        p.style.background =
+            "rgba(255,255,255,0.25)";
+
+        p.style.left =
+            Math.random() *
+                100 +
+            "%";
+
+        p.style.top =
+            Math.random() *
+                100 +
+            "%";
+
+        p.animate(
+
+            [
+
+                {
+                    transform:
+                        "translateY(0px)"
+                },
+
+                {
+                    transform:
+                        "translateY(-80px)"
+                }
+
+            ],
+
+            {
+
+                duration:
+                    3000 +
+                    Math.random() *
+                        5000,
+
+                direction:
+                    "alternate",
+
+                iterations:
+                    Infinity
+
+            }
+
+        );
+
+        container.appendChild(
+            p
+        );
+
+    }
+
+}
+
+/* ==========================================
+   GENERATE AFTER DRAW
+========================================== */
+
+const oldGenerateDraw =
+    generateDraw;
+
+generateDraw =
+    function () {
+
+        oldGenerateDraw();
+
+        setTimeout(
+            () => {
+
+                generateFixtures();
+
+                generateStandings();
+
+                renderWorldMap();
+
+                const balance =
+                    evaluateBalance();
+
+                if (
+                    balance.difference <=
+                    8
+                ) {
+
+                    launchConfetti();
+
+                    showToast(
+                        "Excellent balance! 🎉"
+                    );
+
+                }
+
+            },
+            1000
+        );
+
+    };

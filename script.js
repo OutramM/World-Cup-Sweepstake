@@ -1331,3 +1331,541 @@ function loadEverything() {
     }
 
 }
+/* ==========================================
+   PART 3
+   GROUP STAGE
+   WORLD CUP BRACKET
+========================================== */
+
+let groups = {};
+let groupFixtures = [];
+let knockoutTeams = [];
+
+/* ==========================================
+   CREATE GROUPS
+========================================== */
+
+function createGroups() {
+
+    groups = {};
+
+    const letters =
+        "ABCDEFGHIJKL".split("");
+
+    const shuffled =
+        shuffle(
+            [...activeTeams]
+        );
+
+    for (
+        let i = 0;
+        i < 12;
+        i++
+    ) {
+
+        groups[
+            letters[i]
+        ] = [];
+
+    }
+
+    let index = 0;
+
+    shuffled.forEach(team => {
+
+        groups[
+            letters[index]
+        ].push(team);
+
+        index =
+            (index + 1) % 12;
+
+    });
+
+}
+
+/* ==========================================
+   GENERATE GROUP FIXTURES
+========================================== */
+
+function createGroupFixtures() {
+
+    groupFixtures = [];
+
+    Object.entries(
+        groups
+    ).forEach(
+
+        ([letter, teams]) => {
+
+            if (
+                teams.length < 4
+            )
+                return;
+
+            const t1 =
+                teams[0];
+
+            const t2 =
+                teams[1];
+
+            const t3 =
+                teams[2];
+
+            const t4 =
+                teams[3];
+
+            const fixtures = [
+
+                [t1, t2],
+                [t3, t4],
+
+                [t1, t3],
+                [t2, t4],
+
+                [t1, t4],
+                [t2, t3]
+
+            ];
+
+            fixtures.forEach(
+                fixture => {
+
+                    groupFixtures.push({
+
+                        group:
+                            letter,
+
+                        home:
+                            fixture[0],
+
+                        away:
+                            fixture[1],
+
+                        homeGoals: "",
+                        awayGoals: ""
+
+                    });
+
+                }
+            );
+
+        }
+
+    );
+
+}
+
+/* ==========================================
+   RENDER GROUPS
+========================================== */
+
+function renderGroups() {
+
+    const container =
+        document.getElementById(
+            "bracketContainer"
+        );
+
+    if (
+        !container
+    )
+        return;
+
+    container.innerHTML =
+        "";
+
+    Object.entries(
+        groups
+    ).forEach(
+
+        ([letter, teams]) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "groupCard";
+
+            let html =
+                `
+                <h2>
+                Group ${letter}
+                </h2>
+                `;
+
+            teams.forEach(
+                team => {
+
+                    html +=
+                    `
+                    <div
+                    class="groupTeam">
+
+                        <img
+                        src="
+                        https://flagcdn.com/w40/${team.code}.png
+                        ">
+
+                        <span>
+                        ${team.name}
+                        </span>
+
+                    </div>
+                    `;
+
+                }
+
+            );
+
+            card.innerHTML =
+                html;
+
+            container.appendChild(
+                card
+            );
+
+        }
+
+    );
+
+}
+
+/* ==========================================
+   RENDER FIXTURES
+========================================== */
+
+function renderGroupFixtures() {
+
+    const container =
+        document.getElementById(
+            "fixturesContainer"
+        );
+
+    if (
+        !container
+    )
+        return;
+
+    container.innerHTML =
+        "";
+
+    groupFixtures.forEach(
+
+        (
+            fixture,
+            index
+        ) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "fixtureCard";
+
+            card.innerHTML =
+            `
+            <h3>
+
+            Group
+            ${fixture.group}
+
+            </h3>
+
+            <div>
+
+            ${fixture.home.name}
+
+            <input
+            type="number"
+            min="0"
+            value="${fixture.homeGoals}"
+
+            onchange="
+            updateGroupFixture(
+            ${index},
+            'home',
+            this.value
+            )
+            ">
+
+            -
+
+            <input
+            type="number"
+            min="0"
+            value="${fixture.awayGoals}"
+
+            onchange="
+            updateGroupFixture(
+            ${index},
+            'away',
+            this.value
+            )
+            ">
+
+            ${fixture.away.name}
+
+            </div>
+            `;
+
+            container.appendChild(
+                card
+            );
+
+        }
+
+    );
+
+}
+
+/* ==========================================
+   UPDATE FIXTURE
+========================================== */
+
+function updateGroupFixture(
+    index,
+    side,
+    value
+) {
+
+    if (
+        side === "home"
+    ) {
+
+        groupFixtures[
+            index
+        ].homeGoals =
+            value;
+
+    }
+
+    else {
+
+        groupFixtures[
+            index
+        ].awayGoals =
+            value;
+
+    }
+
+    saveWorldCup();
+
+}
+
+/* ==========================================
+   GROUP TABLES
+========================================== */
+
+function renderGroupTables() {
+
+    const container =
+        document.getElementById(
+            "standingsContainer"
+        );
+
+    if (
+        !container
+    )
+        return;
+
+    container.innerHTML =
+        "";
+
+    Object.entries(
+        groups
+    ).forEach(
+
+        ([letter, teams]) => {
+
+            let html =
+                `
+                <div
+                class="tableCard">
+
+                <h2>
+
+                Group
+                ${letter}
+
+                </h2>
+
+                <table>
+
+                <tr>
+
+                <th>Team</th>
+                <th>P</th>
+                <th>Pts</th>
+
+                </tr>
+                `;
+
+            teams.forEach(
+                team => {
+
+                    html +=
+                    `
+                    <tr>
+
+                        <td>
+
+                        ${team.name}
+
+                        </td>
+
+                        <td>0</td>
+                        <td>0</td>
+
+                    </tr>
+                    `;
+
+                }
+
+            );
+
+            html +=
+                `
+                </table>
+                </div>
+                `;
+
+            container.innerHTML +=
+                html;
+
+        }
+
+    );
+
+}
+
+/* ==========================================
+   ROUND OF 32
+========================================== */
+
+function createKnockoutBracket() {
+
+    knockoutTeams =
+        [];
+
+    Object.values(
+        groups
+    ).forEach(
+        teams => {
+
+            if (
+                teams.length
+            ) {
+
+                knockoutTeams.push(
+                    teams[0]
+                );
+
+                if (
+                    teams[1]
+                ) {
+
+                    knockoutTeams.push(
+                        teams[1]
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+/* ==========================================
+   WORLD CUP START
+========================================== */
+
+function initialiseWorldCup() {
+
+    createGroups();
+
+    createGroupFixtures();
+
+    renderGroups();
+
+    renderGroupFixtures();
+
+    renderGroupTables();
+
+    createKnockoutBracket();
+
+}
+
+/* ==========================================
+   SAVE
+========================================== */
+
+function saveWorldCup() {
+
+    localStorage.setItem(
+
+        "wcGroups",
+
+        JSON.stringify(
+            groups
+        )
+
+    );
+
+    localStorage.setItem(
+
+        "wcFixtures",
+
+        JSON.stringify(
+            groupFixtures
+        )
+
+    );
+
+}
+
+/* ==========================================
+   LOAD
+========================================== */
+
+function loadWorldCup() {
+
+    const g =
+        localStorage.getItem(
+            "wcGroups"
+        );
+
+    const f =
+        localStorage.getItem(
+            "wcFixtures"
+        );
+
+    if (
+        g
+    ) {
+
+        groups =
+            JSON.parse(
+                g
+            );
+
+    }
+
+    if (
+        f
+    ) {
+
+        groupFixtures =
+            JSON.parse(
+                f
+            );
+
+    }
+
+}

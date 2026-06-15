@@ -847,3 +847,51 @@ footer{
         1fr;
     }
 }
+#drawCards {
+
+    display:grid;
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(
+                300px,
+                1fr
+            )
+        );
+
+    gap:30px;
+
+}
+
+.playerCard {
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    border-radius:25px;
+
+    padding:25px;
+
+}
+
+.teamRow {
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:10px 0;
+
+}
+
+#removedTeams {
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+
+}
